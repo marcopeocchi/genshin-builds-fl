@@ -47,20 +47,22 @@ class _CharacterDetailsState extends State<CharacterDetails> {
                     ? Center(
                         child: LimitedBox(
                           maxHeight: 399.9,
-                          child: Image.asset(
-                              Utils.toImageAssetName(widget.detail.name)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Image.asset(
+                              Utils.toImageAssetName(widget.detail.name),
+                            ),
+                          ),
                         ),
                       )
                     : const SizedBox(),
                 Center(
                   child: Row(
                     children: [
-                      isOptimal
-                          ? Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Badge(badgeColor: widget.color),
-                            )
-                          : const SizedBox(),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Badge(badgeColor: widget.color),
+                      ),
                       Text(
                         widget.detail.builds[index].role
                             .toString()
@@ -71,6 +73,16 @@ class _CharacterDetailsState extends State<CharacterDetails> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      isOptimal
+                          ? Text(
+                              ' (optimal)',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: widget.color,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                 ),
