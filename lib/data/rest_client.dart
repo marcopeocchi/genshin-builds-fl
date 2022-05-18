@@ -6,8 +6,8 @@ part 'rest_client.g.dart';
 
 @RestApi(baseUrl: 'https://genshin-impact-builds.herokuapp.com/builds')
 abstract class RestClient {
-  factory RestClient(Dio dio) = _RestClient;
+  factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
-  @GET('/{el}')
-  Future<CharacterBuildsModel> getBuildByElement(@Path('el') String element);
+  @GET('/{elem}')
+  Future<CharacterBuildsModel> getBuildByElement(@Path('elem') String element);
 }

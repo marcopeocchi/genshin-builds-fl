@@ -6,40 +6,37 @@ part of 'character_builds_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CharacterBuildsModel _$$_CharacterBuildsModelFromJson(
+CharacterBuildsModel _$CharacterBuildsModelFromJson(
         Map<String, dynamic> json) =>
-    _$_CharacterBuildsModel(
+    CharacterBuildsModel(
       data: (json['data'] as List<dynamic>)
           .map((e) => Character.fromJson(e as Map<String, dynamic>))
           .toList(),
       updated: DateTime.parse(json['updated'] as String),
     );
 
-Map<String, dynamic> _$$_CharacterBuildsModelToJson(
-        _$_CharacterBuildsModel instance) =>
+Map<String, dynamic> _$CharacterBuildsModelToJson(
+        CharacterBuildsModel instance) =>
     <String, dynamic>{
       'data': instance.data,
       'updated': instance.updated.toIso8601String(),
     };
 
-_$_Character _$$_CharacterFromJson(Map<String, dynamic> json) => _$_Character(
+Character _$CharacterFromJson(Map<String, dynamic> json) => Character(
       name: json['name'] as String,
       builds: (json['builds'] as List<dynamic>)
           .map((e) => Build.fromJson(e as Map<String, dynamic>))
           .toList(),
-      notes: (json['notes'] as List<dynamic>)
-          .map((e) => (e as List<dynamic>).map((e) => e as String).toList())
-          .toList(),
+      notes: json['notes'] as String,
     );
 
-Map<String, dynamic> _$$_CharacterToJson(_$_Character instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CharacterToJson(Character instance) => <String, dynamic>{
       'name': instance.name,
-      'builds': instance.builds,
+      'builds': instance.builds.map((e) => e.toJson()).toList(),
       'notes': instance.notes,
     };
 
-_$_Build _$$_BuildFromJson(Map<String, dynamic> json) => _$_Build(
+Build _$BuildFromJson(Map<String, dynamic> json) => Build(
       role: json['role'] as String,
       equipment:
           (json['equipment'] as List<dynamic>).map((e) => e as String).toList(),
@@ -48,7 +45,7 @@ _$_Build _$$_BuildFromJson(Map<String, dynamic> json) => _$_Build(
       optimal: json['optimal'] as bool,
     );
 
-Map<String, dynamic> _$$_BuildToJson(_$_Build instance) => <String, dynamic>{
+Map<String, dynamic> _$BuildToJson(Build instance) => <String, dynamic>{
       'role': instance.role,
       'equipment': instance.equipment,
       'artifacts': instance.artifacts,

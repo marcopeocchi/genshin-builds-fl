@@ -10,21 +10,11 @@ class Utils {
         .join();
   }
 
-  static List<String> orderedListToList(List<String> ol) {
-    return ol
-        .reduce((value, element) => value + element)
-        .replaceAll(
-          RegExp(r"(\d{1,2}\.)"),
-          '_',
-        )
-        .substring(1)
-        .trim()
-        .split('_')
-        .where((element) => element.isNotEmpty)
-        .toList();
+  static String checkEquivalent(String string) {
+    return string.contains('~=') ? string.replaceAll('~=', ' |') : string;
   }
 
   static String toImageAssetName(String string) {
-    return 'assets/${string.replaceAll('\n', ' ').replaceAll(' ', '_')}.png';
+    return 'assets/${string.replaceAll('\n', ' ').replaceAll(' ', '_')}.webp';
   }
 }

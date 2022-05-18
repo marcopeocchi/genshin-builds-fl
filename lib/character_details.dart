@@ -30,12 +30,8 @@ class _CharacterDetailsState extends State<CharacterDetails> {
         separatorBuilder: (context, index) => const Divider(),
         itemCount: widget.detail.builds.length,
         itemBuilder: (context, index) {
-          final artifacts = Utils.orderedListToList(
-            widget.detail.builds[index].artifacts,
-          );
-          final equipment = Utils.orderedListToList(
-            widget.detail.builds[index].equipment,
-          );
+          final artifacts = widget.detail.builds[index].artifacts;
+          final equipment = widget.detail.builds[index].equipment;
           final isOptimal = widget.detail.builds[index].optimal;
           return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -96,7 +92,9 @@ class _CharacterDetailsState extends State<CharacterDetails> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: artifacts
-                      .map((a) => Text(a.trim().replaceAll('*', '')))
+                      .map((a) => Text(
+                            a.trim().replaceAll('*', '').replaceAll('~=', ' |'),
+                          ))
                       .toList(),
                 ),
                 const SizedBox(height: 10),
@@ -109,7 +107,9 @@ class _CharacterDetailsState extends State<CharacterDetails> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: equipment
-                      .map((e) => Text(e.trim().replaceAll('*', '')))
+                      .map((e) => Text(
+                            e.trim().replaceAll('*', '').replaceAll('~=', '⇆'),
+                          ))
                       .toList(),
                 ),
               ],

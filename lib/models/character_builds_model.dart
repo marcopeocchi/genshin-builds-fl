@@ -1,39 +1,55 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'character_builds_model.freezed.dart';
 part 'character_builds_model.g.dart';
 
-@freezed
-abstract class CharacterBuildsModel with _$CharacterBuildsModel {
-  const factory CharacterBuildsModel({
-    required List<Character> data,
-    required DateTime updated,
-  }) = _CharacterBuildsModel;
+@JsonSerializable()
+class CharacterBuildsModel {
+  List<Character> data;
+  DateTime updated;
+
+  CharacterBuildsModel({
+    required this.data,
+    required this.updated,
+  });
 
   factory CharacterBuildsModel.fromJson(Map<String, dynamic> json) =>
       _$CharacterBuildsModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CharacterBuildsModelToJson(this);
 }
 
-@freezed
-abstract class Character with _$Character {
-  const factory Character({
-    required String name,
-    required List<Build> builds,
-    required List<List<String>> notes,
-  }) = _Character;
+@JsonSerializable(explicitToJson: true)
+class Character {
+  String name;
+  List<Build> builds;
+  String notes;
+
+  Character({
+    required this.name,
+    required this.builds,
+    required this.notes,
+  });
 
   factory Character.fromJson(Map<String, dynamic> json) =>
       _$CharacterFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CharacterToJson(this);
 }
 
-@freezed
-abstract class Build with _$Build {
-  const factory Build({
-    required String role,
-    required List<String> equipment,
-    required List<String> artifacts,
-    required bool optimal,
-  }) = _Build;
+@JsonSerializable(explicitToJson: true)
+class Build {
+  String role;
+  List<String> equipment;
+  List<String> artifacts;
+  bool optimal;
+
+  Build({
+    required this.role,
+    required this.equipment,
+    required this.artifacts,
+    required this.optimal,
+  });
 
   factory Build.fromJson(Map<String, dynamic> json) => _$BuildFromJson(json);
+  Map<String, dynamic> toJson() => _$BuildToJson(this);
 }

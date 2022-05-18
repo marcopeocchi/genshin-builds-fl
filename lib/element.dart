@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_logging_interceptor/dio_logging_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,13 +22,26 @@ class ElementPage extends StatefulWidget {
   State<ElementPage> createState() => _ElementPageState();
 }
 
-class _ElementPageState extends State<ElementPage> {
-  final client = RestClient(Dio()..interceptors.add(DioLoggingInterceptor()));
+class _ElementPageState extends State<ElementPage>
+    with AutomaticKeepAliveClientMixin {
+  late RestClient client;
   late Future<CharacterBuildsModel> response;
 
   @override
   void initState() {
     super.initState();
+    client = RestClient(Dio()
+      ..interceptors.addAll([
+        DioCacheInterceptor(
+          options: CacheOptions(
+            store: MemCacheStore(),
+            maxStale: const Duration(minutes: 15),
+            hitCacheOnErrorExcept: [],
+          ),
+        ),
+        DioLoggingInterceptor(level: Level.basic)
+      ]));
+    response = fetchData();
   }
 
   Future<CharacterBuildsModel> fetchData() async {
@@ -44,7 +58,8 @@ class _ElementPageState extends State<ElementPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widget.color,
@@ -63,27 +78,31 @@ class _ElementPageState extends State<ElementPage> {
             ),
           ),
           FutureBuilder(
-            future: fetchData(),
+            future: response,
             builder: (context, AsyncSnapshot<CharacterBuildsModel> snapshot) {
               if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data!.data.length,
-                  itemBuilder: (context, index) {
-                    final character = snapshot.data!.data[index];
-                    return ListTile(
-                      title: Text(Utils.capitalizeAll(
-                        character.name.replaceAll('\n', ' '),
-                      )),
-                      trailing: Badge(
-                        badgeContent: Text(
-                          '${character.builds.length}',
-                          style: const TextStyle(color: Colors.white),
+                return RefreshIndicator(
+                  onRefresh: fetchData,
+                  color: widget.color,
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.data.length,
+                    itemBuilder: (context, index) {
+                      final character = snapshot.data!.data[index];
+                      return ListTile(
+                        title: Text(Utils.capitalizeAll(
+                          character.name.replaceAll('\n', ' '),
+                        )),
+                        trailing: Badge(
+                          badgeContent: Text(
+                            '${character.builds.length}',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          badgeColor: widget.color,
                         ),
-                        badgeColor: widget.color,
-                      ),
-                      onTap: () => navigateToDetail(character, widget.color),
-                    );
-                  },
+                        onTap: () => navigateToDetail(character, widget.color),
+                      );
+                    },
+                  ),
                 );
               }
               return Center(
@@ -102,4 +121,7 @@ class _ElementPageState extends State<ElementPage> {
   void dispose() {
     super.dispose();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
