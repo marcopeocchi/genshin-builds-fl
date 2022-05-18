@@ -34,28 +34,29 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  late TabController controller;
+  late PageController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 7, vsync: this);
+    controller = PageController(initialPage: 0);
   }
 
   @override
   Widget build(BuildContext context) {
-    return TabBarView(
-      controller: controller,
-      viewportFraction: 1.0,
-      children: [
-        ElementPage(element: 'Pyro', color: Colors.red.shade300),
-        ElementPage(element: 'Hydro', color: Colors.blue.shade500),
-        ElementPage(element: 'Anemo', color: Colors.teal.shade400),
-        ElementPage(element: 'Electro', color: Colors.deepPurple.shade200),
-        ElementPage(element: 'Cryo', color: Colors.lightBlue.shade200),
-        ElementPage(element: 'Geo', color: Colors.amber.shade600),
-        const About(),
-      ],
+    return Scaffold(
+      body: PageView(
+        controller: controller,
+        children: [
+          ElementPage(element: 'Pyro', color: Colors.red.shade300),
+          ElementPage(element: 'Hydro', color: Colors.blue.shade500),
+          ElementPage(element: 'Anemo', color: Colors.teal.shade400),
+          ElementPage(element: 'Electro', color: Colors.deepPurple.shade200),
+          ElementPage(element: 'Cryo', color: Colors.lightBlue.shade200),
+          ElementPage(element: 'Geo', color: Colors.amber.shade600),
+          const About(),
+        ],
+      ),
     );
   }
 
