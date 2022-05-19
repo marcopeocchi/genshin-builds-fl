@@ -50,7 +50,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         children: [
           ElementPage(element: 'Pyro', color: Colors.red.shade300),
           ElementPage(element: 'Hydro', color: Colors.blue.shade500),
-          ElementPage(element: 'Anemo', color: Colors.teal.shade400),
+          ElementPage(element: 'Anemo', color: Colors.teal.shade300),
           ElementPage(element: 'Electro', color: Colors.deepPurple.shade200),
           ElementPage(element: 'Cryo', color: Colors.lightBlue.shade200),
           ElementPage(element: 'Geo', color: Colors.amber.shade600),
